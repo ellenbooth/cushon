@@ -9,7 +9,7 @@
                     v-model="formDetails.chosenFund"
                     :class="{
                     'is-invalid': $v.formDetails.chosenFund.$invalid
-                    && $v.formDetails.speedOfThirdPartyInvolved.$dirty,
+                    && $v.formDetails.chosenFund.$dirty,
                     'is-valid': !$v.formDetails.chosenFund.$invalid,
                     }"
                 >
