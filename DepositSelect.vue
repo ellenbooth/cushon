@@ -39,15 +39,12 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <span class="button is-static" v-if="saving === true">Saving...</span>
-                <div v-else>
-                    <button
-                        class="button is-success"
-                        @click="save"
-                    >
-                        Confirm
-                    </button>
-                </div>
+                <button
+                    class="button is-success"
+                    @click="save"
+                >
+                    Confirm
+                </button>
             </div>
         </div>
     </form>
@@ -88,15 +85,15 @@ export default {
         this.funds = data.data.data;
       })
       .catch(error => this.handleError(error));
-      axios
-        .get(
-          '/api/accounts/' + this.account.id + '/allowance',
-          getDefaultRequestConfiguration()
-        )
-        .then((data) => {
-          this.allowanceRemaining = data.data.data;
-        })
-        .catch(error => this.handleError(error));
+    axios
+      .get(
+        '/api/accounts/' + this.account.id + '/allowance',
+        getDefaultRequestConfiguration()
+      )
+      .then((data) => {
+        this.allowanceRemaining = data.data.data;
+      })
+      .catch(error => this.handleError(error));
   },
   methods: {
     save() {
@@ -119,7 +116,11 @@ export default {
               this.handleError(error);
             });
         } else {
-            this.$toaster.error('Your remaining yearly allowance of £' + this.allowanceRemaining + ' is not enough to make this investment.');
+          this.$toaster.error(
+            'Your remaining yearly allowance of £' 
+            + this.allowanceRemaining + 
+            ' is not enough to make this investment.'
+          );
         }
       } else {
         this.$toaster.error('Please check your answers and try again.');
