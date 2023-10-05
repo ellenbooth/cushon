@@ -52,7 +52,6 @@
 
 <script>
 
-import FundsValidation from "./Validations/Funds.js";
 import { getDefaultRequestConfiguration } from '../../components/requests';
 
 export default {
@@ -68,7 +67,17 @@ export default {
     }
   },
   validations() {
-    return FundsValidation.depositSelectValidations(this.account.isaType, this.formDetails);
+    formDetails: {
+      chosenFund: {
+        required
+      },
+      chosenAmount: {
+        required,
+        decimal,
+        minValue: minValue(1),
+        maxValue: maxValue(20000)
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -87,7 +96,7 @@ export default {
       .catch(error => this.handleError(error));
     axios
       .get(
-        '/api/accounts/' + this.account.id + '/allowance',
+        '/api/accounts/' + this.account.id + '/allowance-remaining',
         getDefaultRequestConfiguration()
       )
       .then((data) => {
@@ -102,7 +111,7 @@ export default {
         if (this.allowanceRemaining > this.formDetails.chosenAmount)  {
           axios
             .post(
-              '/api/accounts/investments',
+              '/api/investments',
               {
                 accountId: this.account.id,
                 data: this.formDetails,
