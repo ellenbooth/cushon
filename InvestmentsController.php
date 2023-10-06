@@ -9,7 +9,7 @@
 public function createInvestment(CreateInvestmentRequest $request, CreateInvestmentService $service): Response
 {
     try {
-        $service->createRepair(
+        $service->create(
             $request->post('accountId'),
             $request->post('fundId'),
             $request->post('amount'),
