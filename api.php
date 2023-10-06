@@ -19,10 +19,11 @@ $router->group(['middleware' => ['user-authentication']], function (Router $rout
         'prefix' => '/investments',
         'namespace' => '\App\Http\Controllers\Investments'
     ], function (Router $router) {
-        $router->post('/', 'InvestmentsController@createInvestment');
-        $router->get('/', 'InvestmentsController@getInvestments');
-        $router->post('/{investment_id}', 'InvestmentsController@updateInvestment');
-        $router->get('/{investment_id}', 'InvestmentsController@getInvestment');
+      $router->get('/', 'InvestmentsController@getInvestments');
+      $router->get('/{investment_id}', 'InvestmentsController@getInvestment');
+      $router->post('/', 'InvestmentsController@createInvestment');
+      $router->post('/{investment_id}', 'InvestmentsController@updateInvestment');  
+      $router->patch('/{investment_id}', 'InvestmentsController@endInvestment');        
     });
  
     $router->group([
