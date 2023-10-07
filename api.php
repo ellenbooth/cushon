@@ -1,8 +1,4 @@
-<?php
-
-/** @var Router $router */
-
-$router->group(['middleware' => ['user-authentication']], function (Router $router) {
+/// more stuff above
 
   $router->group([
       'prefix' => '/accounts',
@@ -33,4 +29,3 @@ $router->group(['middleware' => ['user-authentication']], function (Router $rout
         $router->get('/', 'FundsController@getFunds');
     });
          
-});
