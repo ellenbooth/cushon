@@ -14,12 +14,12 @@ class FundClientFactory
                 return app(XTBClient::class);
           
             case 'eToro':
-                return app(MultiMtaService::class);
+                return app(eToroClient::class);
           
             case 'FinecoBank':
-                return app(ChangePremisesService::class);  
+                return app(FinecoBankClient::class);  
         }
 
-        throw FundsException::BrokerClientNotFound($fund->getbroker());
+        throw FundsException::brokerClientNotFound($fund->getbroker());
     }
 }
