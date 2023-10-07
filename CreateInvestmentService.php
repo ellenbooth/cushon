@@ -6,14 +6,19 @@
      * @param int $fundId
      * @param int $amount
      * @param DateTimeImmutable $created
-     * @return Investment
      * @throws CustomersException
      * @throws AccountsException
      * @throws FundsException
      * @throws InvestmentsException
+     * @throws TransactionsException
      * @return Investment
      */
-    public function create(int $accountId, int $fundId, int $amount, DateTimeImmutable $created): Investment
+    public function create(
+        int $accountId, 
+        int $fundId, 
+        int $amount, 
+        DateTimeImmutable $created
+    ): Investment
     {
         $customer = $this->customerRepository->getByAccountId($accountId);
 
@@ -34,10 +39,15 @@
         }
 
         if ($amount > $account->getRemainingAnnualAllowance()  {
-           throw InvestmentsException::overAllowance($account->getById());
+           throw InvestmentsException::overAllowance($account->getId());
         }
 
-        $purchase = $this->createFundClient($fund)->purchase($fund, $account, $amount);   
+        $purchase = $this->createFundClient($fund)->purchase($fund, $account, $amount); 
+
+        if ($purchase->getStatusCode() !== 201) {
+            throw TransactionsException::purchaseError($account->getId());
+        }
+
         $purchase = json_decode($purchase->getBody());
 
         $investment = Investment::create([
@@ -60,11 +70,11 @@
 
     /**
      * @param Fund $fund
-     * @return AbstractTransactions
+     * @return FundClient
      */
-    public function createfundClient(Fund $fund): AbstractTransactions
+    public function createFundClient(Fund $fund): FundClient
     {
-        return $this->processTransactionFactory->create($fund);
+        return $this->fundClientFactory->create($fund);
     }
 }
  
