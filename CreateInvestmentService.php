@@ -42,7 +42,7 @@
            throw InvestmentsException::overAllowance($account->getId());
         }
 
-        $purchase = $this->createFundClient($fund)->purchase($fund, $account, $amount); 
+        $purchase = $this->purchase($fund, $account, $amount); 
 
         if ($purchase->getStatusCode() !== 201) {
             throw TransactionsException::purchaseError($account->getId());
@@ -70,11 +70,16 @@
 
     /**
      * @param Fund $fund
-     * @return FundClient
+     * @param Account $account
+     * @param int $amount
+     * @return Response
      */
-    public function createFundClient(Fund $fund): FundClient
+    public function purchase(Fund $fund, Account $account, int $amonut)): Response
     {
-        return $this->fundClientFactory->create($fund);
+        $client = $this->fundClientFactory->create($fund->getId());
+        return new Response(
+            $client->purchase(Fund $fund, Account $account, int $amonut)
+        ); 
     }
 }
  
