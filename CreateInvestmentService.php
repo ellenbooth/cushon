@@ -29,10 +29,10 @@
         $account = $this->accountRepository->getById($accountId);
 
         if (!$account || !$account->active) {
-            throw AccountUsException::notFoundById($accountId);
+            throw AccountsException::notFoundById($accountId);
         }
 
-        $fund = $this->fundRepository->getById($accountId);
+        $fund = $this->fundRepository->getById($fundId);
 
         if (!$fund || !$fund->active) {
             throw FundsException::notFoundById($fundId);
@@ -50,7 +50,7 @@
 
         $purchase = json_decode($purchase->getBody());
 
-        $investment = $account->getInvestmentByFundId(fundId);
+        $investment = $account->getInvestmentByFundId($fundId);
 
         if (!$investment || $investment->hasEnded()) {
             $investment = Investment::create([
@@ -78,11 +78,11 @@
      * @param int $amount
      * @return Response
      */
-    public function purchase(Fund $fund, Account $account, int $amonut)): Response
+    public function purchase(Fund $fund, Account $account, int $amount)): Response
     {
         $client = $this->fundClientFactory->create($fund);
         return new Response(
-            $client->purchase(Fund $fund, Account $account, int $amonut)
+            $client->purchase(Fund $fund, Account $account, int $amount)
         ); 
     }
 }
