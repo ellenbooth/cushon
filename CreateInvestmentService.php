@@ -50,11 +50,15 @@
 
         $purchase = json_decode($purchase->getBody());
 
-        $investment = Investment::create([
-            'account_id' => $accountId,
-            'fund_id' => $fundId,
-            'created' => $created,
-        ]);
+        $investment = $account->getInvestmentByFundId(fundId);
+
+        if (!$investment || $investment->hasEnded()) {
+            $investment = Investment::create([
+                'account_id' => $accountId,
+                'fund_id' => $fundId,
+                'created' => $created,
+            ]);
+        }
 
         $transaction = Transaction::create([
             'investment_id' => $investment->getId(),
