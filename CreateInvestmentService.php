@@ -38,7 +38,7 @@
             throw FundsException::notFoundById($fundId);
         }
 
-        if ($amount > $account->getRemainingAnnualAllowance()  {
+        if ($amount > $account->getRemainingAnnualAllowance())  {
            throw InvestmentsException::overAllowance($account->getId());
         }
 
