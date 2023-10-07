@@ -3,20 +3,28 @@
 /**
  * @param CreateInvestmentRequest $request
  * @param CreateInvestmentService $service
- *
- * @return InvestmentResponse
+ * @return Response
  */
-public function createInvestment(CreateInvestmentRequest $request, CreateInvestmentService $service): Response
+public function createInvestment(
+    CreateInvestmentRequest $request, 
+    CreateInvestmentService $service
+): Response
 {
     try {
-        $service->create(
+        $investment = $service->create(
             $request->post('accountId'),
             $request->post('fundId'),
             $request->post('amount'),
-            new DateTimeImmutable($request->post('created')),
+            new DateTimeImmutable($request->post('created'))
         );
-        return new InvestmentResponse(null, 204);
-    } catch (Exception $e) {
-        return new Response(['status' => 'error', 'message' => $exception->getMessage()], 500);
-    }
+        return new Response(InvestmentResponse::one($investment), 201)
+    } catch (Throwable $exception) {
+        return new Response(
+            [    
+                'status' => 'error', 
+                'message' => $exception->getMessage()
+            ],
+            400
+        );
+    } 
 }
