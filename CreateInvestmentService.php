@@ -76,7 +76,7 @@
      */
     public function purchase(Fund $fund, Account $account, int $amonut)): Response
     {
-        $client = $this->fundClientFactory->create($fund->getId());
+        $client = $this->fundClientFactory->create($fund);
         return new Response(
             $client->purchase(Fund $fund, Account $account, int $amonut)
         ); 
