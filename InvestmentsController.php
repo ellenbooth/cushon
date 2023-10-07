@@ -4,7 +4,7 @@
  * @param CreateInvestmentRequest $request
  * @param CreateInvestmentService $service
  *
- * @return Response
+ * @return InvestmentResponse
  */
 public function createInvestment(CreateInvestmentRequest $request, CreateInvestmentService $service): Response
 {
@@ -15,7 +15,7 @@ public function createInvestment(CreateInvestmentRequest $request, CreateInvestm
             $request->post('amount'),
             new DateTimeImmutable($request->post('created')),
         );
-        return new Response(null, 204);
+        return new InvestmentResponse(null, 204);
     } catch (Exception $e) {
         return new Response(['status' => 'error', 'message' => $exception->getMessage()], 500);
     }
