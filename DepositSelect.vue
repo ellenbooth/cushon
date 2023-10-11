@@ -114,8 +114,8 @@ export default {
               '/api/investments',
               {
                 accountId: this.account.id,
-                fundId: this.chosenFund,
-                amount: this.chosenAmount,  
+                fundId: this.formDetails.chosenFund,
+                amount: this.formDetails.chosenAmount,  
               },
               getDefaultRequestConfiguration()
             )
